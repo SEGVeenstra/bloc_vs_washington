@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             return NamesPage(
               title: 'Names',
+              isLoading: state.isLoading,
               names: state.value.toList(),
               onGenerateNamePressed: (_) => Washington.instance.dispatch(GenerateNamePressed()),
             );

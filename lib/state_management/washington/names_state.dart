@@ -12,6 +12,8 @@ class NamesState extends UnitedState<Set<String>> {
   }
 
   void _generateNamePressedHandler() async {
+    setState(value, isLoading: true);
+
     final newName = await _nameService.generateName();
 
     // Add the new name
