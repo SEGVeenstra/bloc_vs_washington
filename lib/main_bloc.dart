@@ -1,5 +1,6 @@
 import 'package:bloc_vs_washington/services/name_service.dart';
 import 'package:bloc_vs_washington/state_management/bloc/names_cubit.dart';
+import 'package:bloc_vs_washington/state_management/bloc/removed_names_cubit.dart';
 import 'package:bloc_vs_washington/ui/names_page.dart';
 import 'package:bloc_vs_washington/ui/names_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NamesCubit(NameService()),
+    final namesCubit = NamesCubit(NameService());
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => namesCubit),
+        BlocProvider(create: (_) => RemovedNamesCubit(namesCubit)),
+      ],
       child: MaterialApp(
         title: 'Bloc Demo',
         theme: ThemeData(
@@ -32,7 +37,7 @@ class MyApp extends StatelessWidget {
               showNamesSnackbar(
                 context: context,
                 text: '${state.removedName} has been removed.',
-                action: () async => await context.read<NamesCubit>().addName(state.removedName),
+                action: () async => await context.read<RemovedNamesCubit>().reAddName(state.removedName),
                 actionLabel: 'Undo',
               );
             }
@@ -44,6 +49,17 @@ class MyApp extends StatelessWidget {
               names: state.names.toList(),
               onGenerateNamePressed: (context) async => await context.read<NamesCubit>().generateName(),
               onRemoveNamePressed: (name, context) async => context.read<NamesCubit>().removeName(name),
+              nextPage: BlocBuilder<RemovedNamesCubit, Set<String>>(
+                builder: (context, state) {
+                  return NamesPage(
+                    title: 'Removed Names',
+                    names: state.toList(),
+                    onRemoveNamePressed: (name, context) async {
+                      await context.read<RemovedNamesCubit>().reAddName(name);
+                    },
+                  );
+                },
+              ),
             );
           },
         ),
