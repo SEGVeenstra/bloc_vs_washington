@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             return NamesPage(
               title: 'Names',
+              isLoading: true,
               names: state.toList(),
               onGenerateNamePressed: (context) async => await context.read<NamesCubit>().generateName(),
             );
