@@ -13,3 +13,21 @@ class NamesStateLoaded extends NamesState {
 class NamesStateLoading extends NamesState {
   NamesStateLoading({required Set<String> names}) : super(names: names);
 }
+
+class NamesStateNameRemoved extends NamesState {
+  final String removedName;
+
+  NamesStateNameRemoved({
+    required this.removedName,
+    required Set<String> names,
+  }) : super(names: names);
+}
+
+class NamesStateDuplicatedName extends NamesState {
+  final String duplicatedName;
+
+  NamesStateDuplicatedName({
+    required this.duplicatedName,
+    required Set<String> names,
+  }) : super(names: names);
+}

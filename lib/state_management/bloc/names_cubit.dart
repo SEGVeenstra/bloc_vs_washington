@@ -15,12 +15,21 @@ class NamesCubit extends Cubit<NamesState> {
 
     final newName = await _nameService.generateName();
 
+    if (state.names.contains(newName)) {
+      emit(
+        NamesStateDuplicatedName(
+          duplicatedName: newName,
+          names: state.names,
+        ),
+      );
+      return;
+    }
+
     // Add the new name
     final newNames = Set.of(state.names)..add(newName);
 
     // Sort on alphabetical order
     final sortedNames = newNames.sortAlphabetical();
-<<<<<<< HEAD
 
     emit(NamesStateLoaded(names: sortedNames));
   }
@@ -28,10 +37,19 @@ class NamesCubit extends Cubit<NamesState> {
   Future<void> removeName(String name) async {
     final newNames = Set.of(state.names)..remove(name);
 
-    emit(NamesStateLoaded(names: newNames));
-=======
+    emit(
+      NamesStateNameRemoved(
+        removedName: name,
+        names: newNames,
+      ),
+    );
+  }
+
+  Future<void> addName(String name) async {
+    final newNames = Set.of(state.names)..add(name);
+
+    final sortedNames = newNames.sortAlphabetical();
 
     emit(NamesStateLoaded(names: sortedNames));
->>>>>>> 64c1952 (Implement bloc phase 2)
   }
 }

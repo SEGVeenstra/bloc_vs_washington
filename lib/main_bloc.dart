@@ -1,6 +1,7 @@
 import 'package:bloc_vs_washington/services/name_service.dart';
 import 'package:bloc_vs_washington/state_management/bloc/names_cubit.dart';
 import 'package:bloc_vs_washington/ui/names_page.dart';
+import 'package:bloc_vs_washington/ui/names_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +21,22 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: BlocBuilder<NamesCubit, NamesState>(
+        home: BlocConsumer<NamesCubit, NamesState>(
+          listener: (context, state) {
+            if (state is NamesStateDuplicatedName) {
+              showNamesSnackbar(
+                context: context,
+                text: '${state.duplicatedName} was already added.',
+              );
+            } else if (state is NamesStateNameRemoved) {
+              showNamesSnackbar(
+                context: context,
+                text: '${state.removedName} has been removed.',
+                action: () async => await context.read<NamesCubit>().addName(state.removedName),
+                actionLabel: 'Undo',
+              );
+            }
+          },
           builder: (context, state) {
             return NamesPage(
               title: 'Names',
