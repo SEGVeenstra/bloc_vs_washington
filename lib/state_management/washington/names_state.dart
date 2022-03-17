@@ -16,6 +16,12 @@ class NameRemoved {
   const NameRemoved({required this.removedName});
 }
 
+class NameAdded {
+  final String addedName;
+
+  const NameAdded({required this.addedName});
+}
+
 class NamesState extends UnitedState<Set<String>> {
   final NameService _nameService;
 
@@ -43,6 +49,7 @@ class NamesState extends UnitedState<Set<String>> {
     final sortedValue = newValue.sortAlphabetical();
 
     setState(sortedValue);
+    dispatch(NameAdded(addedName: newName));
   }
 
   Future<void> _removeNamePressedHandler(RemoveNamePressed event) async {
@@ -58,5 +65,6 @@ class NamesState extends UnitedState<Set<String>> {
     final sortedValue = newValue.sortAlphabetical();
 
     setState(sortedValue);
+    dispatch(NameAdded(addedName: event.name));
   }
 }
