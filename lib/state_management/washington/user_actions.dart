@@ -5,3 +5,9 @@ class RemoveNamePressed {
 
   const RemoveNamePressed(this.name);
 }
+
+class UndoRemoveNamePressed {
+  final String name;
+
+  const UndoRemoveNamePressed(this.name);
+}
