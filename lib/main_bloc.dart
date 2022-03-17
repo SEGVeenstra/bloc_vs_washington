@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
               isLoading: state is NamesStateLoading,
               names: state.names.toList(),
               onGenerateNamePressed: (context) async => await context.read<NamesCubit>().generateName(),
+              onRemoveNamePressed: (name, context) async => context.read<NamesCubit>().removeName(name),
             );
           },
         ),

@@ -23,4 +23,10 @@ class NamesCubit extends Cubit<NamesState> {
 
     emit(NamesStateLoaded(names: sortedNames));
   }
+
+  Future<void> removeName(String name) async {
+    final newNames = Set.of(state.names)..remove(name);
+
+    emit(NamesStateLoaded(names: newNames));
+  }
 }
