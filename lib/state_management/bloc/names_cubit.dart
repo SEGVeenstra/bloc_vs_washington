@@ -3,20 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import './../../helpers/set_ext.dart';
 
-class NamesCubit extends Cubit<Set<String>> {
+part 'names_state.dart';
+
+class NamesCubit extends Cubit<NamesState> {
   final NameService _nameService;
 
-  NamesCubit(this._nameService) : super({});
+  NamesCubit(this._nameService) : super(NamesStateLoaded(names: {}));
 
   Future<void> generateName() async {
+    emit(NamesStateLoading(names: state.names));
+
     final newName = await _nameService.generateName();
 
     // Add the new name
-    final newState = Set.of(state)..add(newName);
+    final newNames = Set.of(state.names)..add(newName);
 
     // Sort on alphabetical order
-    final sortedState = newState.sortAlphabetical();
+    final sortedNames = newNames.sortAlphabetical();
 
-    emit(sortedState);
+    emit(NamesStateLoaded(names: sortedNames));
   }
 }

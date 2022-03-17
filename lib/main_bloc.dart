@@ -20,12 +20,12 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: BlocBuilder<NamesCubit, Set<String>>(
+        home: BlocBuilder<NamesCubit, NamesState>(
           builder: (context, state) {
             return NamesPage(
               title: 'Names',
-              isLoading: true,
-              names: state.toList(),
+              isLoading: state is NamesStateLoading,
+              names: state.names.toList(),
               onGenerateNamePressed: (context) async => await context.read<NamesCubit>().generateName(),
             );
           },
