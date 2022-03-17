@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => NamesState(NameService())),
-        ChangeNotifierProvider(create: (_) => RemovedNamesState()),
+        ChangeNotifierProvider(create: (_) => RemovedNamesState(), lazy: false),
       ],
       child: MaterialApp(
         title: 'Washington Demo',

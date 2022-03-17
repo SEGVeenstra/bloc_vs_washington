@@ -30,7 +30,6 @@ class RemovedNamesCubit extends Cubit<Set<String>> {
     final newRemovedNames = Set.of(state)..remove(name);
 
     emit(newRemovedNames);
-    _namesCubit.addName(name);
   }
 
   @override

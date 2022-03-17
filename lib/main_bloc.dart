@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => namesCubit),
-        BlocProvider(create: (_) => RemovedNamesCubit(namesCubit)),
+        BlocProvider(create: (_) => RemovedNamesCubit(namesCubit), lazy: false),
       ],
       child: MaterialApp(
         title: 'Bloc Demo',
@@ -37,7 +37,9 @@ class MyApp extends StatelessWidget {
               showNamesSnackbar(
                 context: context,
                 text: '${state.removedName} has been removed.',
-                action: () async => await context.read<RemovedNamesCubit>().reAddName(state.removedName),
+                action: () async => await context
+                    .read<RemovedNamesCubit>()
+                    .reAddName(state.removedName),
                 actionLabel: 'Undo',
               );
             }
@@ -47,8 +49,10 @@ class MyApp extends StatelessWidget {
               title: 'Names',
               isLoading: state is NamesStateLoading,
               names: state.names.toList(),
-              onGenerateNamePressed: (context) async => await context.read<NamesCubit>().generateName(),
-              onRemoveNamePressed: (name, context) async => context.read<NamesCubit>().removeName(name),
+              onGenerateNamePressed: (context) async =>
+                  await context.read<NamesCubit>().generateName(),
+              onRemoveNamePressed: (name, context) async =>
+                  context.read<NamesCubit>().removeName(name),
               nextPage: BlocBuilder<RemovedNamesCubit, Set<String>>(
                 builder: (context, state) {
                   return NamesPage(
