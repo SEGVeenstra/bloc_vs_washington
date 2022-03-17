@@ -9,9 +9,10 @@ class NamesState extends UnitedState<Set<String>> {
 
   NamesState(this._nameService) : super({}) {
     addHandler<GenerateNamePressed>((_) => _generateNamePressedHandler());
+    addHandler<RemoveNamePressed>(_removeNamePressedHandler);
   }
 
-  void _generateNamePressedHandler() async {
+  Future<void> _generateNamePressedHandler() async {
     setState(value, isLoading: true);
 
     final newName = await _nameService.generateName();
@@ -23,5 +24,11 @@ class NamesState extends UnitedState<Set<String>> {
     final sortedValue = newValue.sortAlphabetical();
 
     setState(sortedValue);
+  }
+
+  Future<void> _removeNamePressedHandler(RemoveNamePressed event) async {
+    final newNames = Set.of(value)..remove(event.name);
+
+    setState(newNames);
   }
 }

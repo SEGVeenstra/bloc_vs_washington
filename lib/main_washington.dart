@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
               isLoading: state.isLoading,
               names: state.value.toList(),
               onGenerateNamePressed: (_) => Washington.instance.dispatch(GenerateNamePressed()),
+              onRemoveNamePressed: (name, context) => Washington.instance.dispatch(RemoveNamePressed(name)),
             );
           },
         ),
