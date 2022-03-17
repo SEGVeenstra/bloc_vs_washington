@@ -12,7 +12,7 @@ class NamesState extends UnitedState<Set<String>> {
     addHandler<RemoveNamePressed>(_removeNamePressedHandler);
   }
 
-  Future<void> _generateNamePressedHandler() async {
+  void _generateNamePressedHandler() async {
     setState(value, isLoading: true);
 
     final newName = await _nameService.generateName();
