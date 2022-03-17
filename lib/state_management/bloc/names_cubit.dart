@@ -20,6 +20,7 @@ class NamesCubit extends Cubit<NamesState> {
 
     // Sort on alphabetical order
     final sortedNames = newNames.sortAlphabetical();
+<<<<<<< HEAD
 
     emit(NamesStateLoaded(names: sortedNames));
   }
@@ -28,5 +29,9 @@ class NamesCubit extends Cubit<NamesState> {
     final newNames = Set.of(state.names)..remove(name);
 
     emit(NamesStateLoaded(names: newNames));
+=======
+
+    emit(NamesStateLoaded(names: sortedNames));
+>>>>>>> 64c1952 (Implement bloc phase 2)
   }
 }
