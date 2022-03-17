@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 
 class NamesPage extends StatelessWidget {
+  final String title;
   final List<String> names;
   final void Function(BuildContext context)? onGenerateNamePressed;
   final void Function(String name, BuildContext context)? onRemoveNamePressed;
   final bool isLoading;
+  final Widget? nextPage;
 
   const NamesPage({
+    required this.title,
     required this.names,
     this.onGenerateNamePressed,
     this.onRemoveNamePressed,
+    this.nextPage,
     this.isLoading = false,
     Key? key,
   }) : super(key: key);
@@ -18,7 +22,16 @@ class NamesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Names'),
+        title: Text(title),
+        actions: [
+          if (nextPage != null)
+            IconButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => nextPage!),
+              ),
+              icon: const Icon(Icons.delete_sweep),
+            )
+        ],
       ),
       body: Column(
         children: [
